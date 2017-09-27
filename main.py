@@ -35,6 +35,8 @@ def main():
             model.add(MaxPooling2D(strides=(2, 2)))
 
     model.add(Flatten())
+    model.add(Dropout(0.5))
+
     model.add(Dense(1024))
     model.add(Dropout(0.5))
 
