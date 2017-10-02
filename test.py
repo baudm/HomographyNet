@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-import sys
 import os.path
+import sys
 
 from keras.models import load_model
 
-import data
+from homographynet import data
 
 
 def main():

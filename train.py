@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 
-import sys
 import os.path
+import sys
 
+from keras.callbacks import ModelCheckpoint
 from keras.models import load_model
 from keras.optimizers import SGD
-from keras.callbacks import ModelCheckpoint
 
-import data
-from models import create_model
-from callbacks import LearningRateScheduler
+from homographynet import data
+from homographynet.callbacks import LearningRateScheduler
+from homographynet.models import create_model
 
 
 def main():
