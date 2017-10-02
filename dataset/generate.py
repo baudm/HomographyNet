@@ -148,7 +148,7 @@ def bundle(queue, outdir):
 
 def main():
     if len(sys.argv) < 4:
-        print('Usage: generate_data.py <output dir> <samples per input> <INPUT DIRS...>')
+        print('Usage: generate.py <output dir> <samples per input> <INPUT DIRS...>')
         exit(1)
     output_dir = sys.argv[1]
     samples = int(sys.argv[2])
