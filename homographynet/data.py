@@ -34,7 +34,7 @@ def get_evaluate_generator_kwargs(batch_size):
 def loader(path, batch_size=64, normalize=True):
     """Generator to be used with model.fit_generator()"""
     while True:
-        for npz in glob.glob(os.path.join(path, '*.npz')):
+        for npz in glob.iglob(os.path.join(path, '*.npz')):
             # Load pack into memory
             archive = np.load(npz)
             images = archive['images']
