@@ -20,7 +20,7 @@ def create_model():
 
     model.add(Flatten())
     model.add(Dropout(0.5))
-    model.add(Dense(1024))
+    model.add(Dense(1024, activation='relu'))
     model.add(Dropout(0.5))
 
     # Regression model

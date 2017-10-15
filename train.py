@@ -9,6 +9,7 @@ from keras.optimizers import SGD
 
 from homographynet import data
 from homographynet.callbacks import LearningRateScheduler
+from homographynet.losses import euclidean_distance
 from homographynet.models import create_model
 
 
@@ -30,7 +31,7 @@ def main():
 
     sgd = SGD(lr=base_lr, momentum=0.9)
 
-    model.compile(optimizer=sgd, loss='mse')
+    model.compile(optimizer=sgd, loss=euclidean_distance, metrics=['mean_absolute_error'])
     model.summary()
 
     save_path = os.path.dirname(os.path.realpath(__file__))
