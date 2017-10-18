@@ -31,15 +31,26 @@ def get_evaluate_generator_kwargs(batch_size):
     return {'steps': steps}
 
 
+def _shuffle_in_unison(a, b):
+    """A hack to shuffle both a and b the same "random" way"""
+    prng_state = np.random.get_state()
+    np.random.shuffle(a)
+    np.random.set_state(prng_state)
+    np.random.shuffle(b)
+
+
 def loader(path, batch_size=64, normalize=True):
     """Generator to be used with model.fit_generator()"""
     while True:
-        for npz in glob.iglob(os.path.join(path, '*.npz')):
+        files = glob.glob(os.path.join(path, '*.npz'))
+        np.random.shuffle(files)
+        for npz in files:
             # Load pack into memory
             archive = np.load(npz)
             images = archive['images']
             offsets = archive['offsets']
             del archive
+            _shuffle_in_unison(images, offsets)
             # Split into mini batches
             num_batches = int(len(offsets) / batch_size)
             images = np.array_split(images, num_batches)
