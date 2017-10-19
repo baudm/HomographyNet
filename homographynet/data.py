@@ -15,22 +15,6 @@ TEST_PATH = '/home/darwin/Projects/HomographyNet/test-set'
 TEST_SAMPLES = 5 * _SAMPLES_PER_ARCHIVE
 
 
-def get_fit_generator_kwargs(batch_size, target_iterations):
-    # In the paper, the 90,000 iterations was for batch_size = 64
-    # So scale appropriately
-    total_iterations = int(target_iterations * 64 / batch_size)
-    # As stated in Keras docs
-    steps_per_epoch = int(TRAIN_SAMPLES / batch_size)
-    epochs = int(np.ceil(total_iterations / steps_per_epoch))
-    # kwargs for model.fit_generator()
-    return {'steps_per_epoch': steps_per_epoch, 'epochs': epochs}
-
-
-def get_evaluate_generator_kwargs(batch_size):
-    steps = int(TEST_SAMPLES / batch_size)
-    return {'steps': steps}
-
-
 def _shuffle_in_unison(a, b):
     """A hack to shuffle both a and b the same "random" way"""
     prng_state = np.random.get_state()

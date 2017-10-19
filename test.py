@@ -19,11 +19,11 @@ def main():
     batch_size = 64 * 2
 
     loader = data.loader(data.TEST_PATH, batch_size)
-    kwargs = data.get_evaluate_generator_kwargs(batch_size)
+    steps = int(data.TEST_SAMPLES / batch_size)
 
     # Optimizer doesn't matter in this case
     model.compile('sgd', euclidean_distance, metrics=['mean_absolute_error'])
-    evaluation = model.evaluate_generator(loader, **kwargs)
+    evaluation = model.evaluate_generator(loader, steps)
     print('Test loss:', evaluation)
 
 

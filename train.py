@@ -3,6 +3,8 @@
 import os.path
 import sys
 
+import math
+
 from keras.callbacks import ModelCheckpoint
 from keras.models import load_model
 from keras.optimizers import SGD
@@ -40,10 +42,22 @@ def main():
     # LR scaling as described in the paper
     lr_scheduler = LearningRateScheduler(base_lr, 0.1, 30000)
 
+    # In the paper, the 90,000 iterations was for batch_size = 64
+    # So scale appropriately
+    target_iterations = int(target_iterations * 64 / batch_size)
+    # As stated in Keras docs
+    steps_per_epoch = int(data.TRAIN_SAMPLES / batch_size)
+    epochs = int(math.ceil(target_iterations / steps_per_epoch))
+
     loader = data.loader(data.TRAIN_PATH, batch_size)
-    kwargs = data.get_fit_generator_kwargs(batch_size, target_iterations)
+
+    val_loader = data.loader(data.TEST_PATH, batch_size)
+    val_steps = int(data.TEST_SAMPLES / batch_size)
+
     # Train
-    model.fit_generator(loader, callbacks=[lr_scheduler, checkpoint], **kwargs)
+    model.fit_generator(loader, steps_per_epoch, epochs,
+                        callbacks=[lr_scheduler, checkpoint],
+                        validation_data=val_loader, validation_steps=val_steps)
 
 
 if __name__ == '__main__':
