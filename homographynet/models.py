@@ -38,7 +38,7 @@ def create_model(use_weights=False):
         weights_name = os.path.basename(BASELINE_WEIGHTS_PATH)
         weights_path = get_file(weights_name, BASELINE_WEIGHTS_PATH,
                                 cache_subdir='models',
-                                md5_hash='3118ab8ddb49dfa48b38d7cad7efcb88')
+                                file_hash='915d92726132f3e1d38b69b64838ef2b5d8bbe8ea223b06c792aa72cce6030a6')
         model.load_weights(weights_path)
 
     return model
@@ -61,7 +61,7 @@ def create_mobilenet_model(use_weights=False):
         weights_name = os.path.basename(MOBILENET_WEIGHTS_PATH)
         weights_path = get_file(weights_name, MOBILENET_WEIGHTS_PATH,
                                 cache_subdir='models',
-                                md5_hash='7f14ab44ad375fa0ed5c205f077c4bbe')
+                                file_hash='e161aabc5a04ff715a6f5706855a339d598d1216a4a5f45b90b8dbf5f8bcedc3')
         model.load_weights(weights_path)
 
     return model
