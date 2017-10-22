@@ -4,24 +4,10 @@ import os.path
 import sys
 
 from keras.models import load_model
-from keras.utils.data_utils import get_file
 
 from homographynet import data
 from homographynet.models import create_model
 from homographynet.losses import mean_corner_error
-
-
-WEIGHTS_NAME = 'homographynet_weights_tf_dim_ordering_tf_kernels.h5'
-WEIGHTS_PATH = 'https://github.com/baudm/HomographyNet/raw/master/models/' + WEIGHTS_NAME
-
-
-def load_pretrained_model():
-    weights_path = get_file(WEIGHTS_NAME, WEIGHTS_PATH,
-                            cache_subdir='models',
-                            md5_hash='3118ab8ddb49dfa48b38d7cad7efcb88')
-    model = create_model()
-    model.load_weights(weights_path)
-    return model
 
 
 def main():
@@ -33,8 +19,9 @@ def main():
     if len(sys.argv) == 2:
         model = load_model(sys.argv[1], compile=False)
     else:
-        model = load_pretrained_model()
+        model = create_model(use_weights=True)
 
+    model.summary()
 
     batch_size = 64 * 2
 
