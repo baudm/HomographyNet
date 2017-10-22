@@ -6,13 +6,13 @@ import sys
 from keras.models import load_model
 
 from homographynet import data
-from homographynet.losses import euclidean_distance
+from homographynet.losses import mean_corner_error
 
 
 def main():
     if len(sys.argv) != 2:
         name = os.path.basename(__file__)
-        print('Usage: {} [trained model.hdf5]'.format(name))
+        print('Usage: {} [trained model.h5]'.format(name))
         exit(1)
 
     model = load_model(sys.argv[1], compile=False)
@@ -22,7 +22,7 @@ def main():
     steps = int(data.TEST_SAMPLES / batch_size)
 
     # Optimizer doesn't matter in this case
-    model.compile('sgd', euclidean_distance, metrics=['mean_absolute_error'])
+    model.compile('sgd', loss='mean_squared_error', metrics=[mean_corner_error])
     evaluation = model.evaluate_generator(loader, steps)
     print('Test loss:', evaluation)
 

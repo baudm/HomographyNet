@@ -11,14 +11,14 @@ from keras.optimizers import SGD
 
 from homographynet import data
 from homographynet.callbacks import LearningRateScheduler
-from homographynet.losses import euclidean_distance
+from homographynet.losses import mean_corner_error
 from homographynet.models import create_model
 
 
 def main():
     if len(sys.argv) > 2:
         name = os.path.basename(__file__)
-        print('Usage: {} [existing model.hdf5]'.format(name))
+        print('Usage: {} [existing model.h5]'.format(name))
         exit(1)
 
     if len(sys.argv) == 2:
@@ -33,11 +33,11 @@ def main():
 
     sgd = SGD(lr=base_lr, momentum=0.9)
 
-    model.compile(optimizer=sgd, loss=euclidean_distance, metrics=['mean_absolute_error'])
+    model.compile(optimizer=sgd, loss='mean_squared_error', metrics=[mean_corner_error])
     model.summary()
 
     save_path = os.path.dirname(os.path.realpath(__file__))
-    checkpoint = ModelCheckpoint(os.path.join(save_path, 'model.{epoch:02d}.hdf5'))
+    checkpoint = ModelCheckpoint(os.path.join(save_path, 'model.{epoch:02d}.h5'))
 
     # LR scaling as described in the paper
     lr_scheduler = LearningRateScheduler(base_lr, 0.1, 30000)
