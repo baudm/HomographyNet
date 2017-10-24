@@ -12,14 +12,18 @@ class LearningRateScheduler(Callback):
 
     def __init__(self, base_lr, gamma, step_size):
         super().__init__()
-        self._lr = base_lr
+        self._base_lr = base_lr
         self._gamma = gamma
         self._step_size = step_size
-        self._iteration = 1
+        self._steps = 0
+
+    def on_epoch_begin(self, epoch, logs=None):
+        self._steps = epoch * self.params['steps']
 
     def on_batch_begin(self, batch, logs=None):
-        if self._iteration % self._step_size == 0:
-            self._lr *= self._gamma
-            K.set_value(self.model.optimizer.lr, self._lr)
-            print('New learning rate:', self._lr)
-        self._iteration += 1
+        self._steps += 1
+        if self._steps % self._step_size == 0:
+            exp = int(self._steps / self._step_size)
+            lr = self._base_lr * (self._gamma ** exp)
+            K.set_value(self.model.optimizer.lr, lr)
+            print('New learning rate:', lr)
