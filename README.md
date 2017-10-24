@@ -19,5 +19,7 @@ A Python package containing the implementation of the HomographyNet model in Ker
 * `homographynet_weights_tf_dim_ordering_tf_kernels.h5` - pretrained weights of the baseline HomographyNet model
 * `mobile_homographynet_weights_tf_dim_ordering_tf_kernels.h5` - pretrained weights of the MobileNet-based model
 
+
 `test.py` - a script for evaluating a specified model, or the pretrained model. It will download and cache the weights of the pretrained model on first use.
+
 `train.py` - a script for training the HomographyNet model
