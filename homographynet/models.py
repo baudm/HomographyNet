@@ -48,11 +48,9 @@ def create_mobilenet_model(use_weights=False):
     base_model = MobileNet(input_shape=(128, 128, 2), include_top=False, weights=None)
     x = base_model.output
 
-    x1 = Conv2D(2, 4, name='conv2d_1')(x)
-    x2 = Conv2D(2, 4, name='conv2d_2')(x)
-    x3 = Conv2D(2, 4, name='conv2d_3')(x)
-    x4 = Conv2D(2, 4, name='conv2d_4')(x)
-    x = Concatenate(name='concatenate_1')([x1, x2, x3, x4])
+    # 4 Conv layers in parallel with 2 4x4 filters each
+    x = [Conv2D(2, 4, name='conv2d_{}'.format(i))(x) for i in range(1, 5)]
+    x = Concatenate(name='concatenate_1')(x)
     x = Flatten(name='flatten_1')(x)
 
     model = Model(base_model.input, x, name='mobile_homographynet')
