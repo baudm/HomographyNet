@@ -46,6 +46,7 @@ def create_model(use_weights=False):
 
 def create_mobilenet_model(use_weights=False):
     base_model = MobileNet(input_shape=(128, 128, 2), include_top=False, weights=None)
+    # The output shape just before the pooling and dense layers is: (4, 4, 1024)
     x = base_model.output
 
     # 4 Conv layers in parallel with 2 4x4 filters each
